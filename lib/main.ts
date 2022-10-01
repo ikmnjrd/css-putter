@@ -1,21 +1,19 @@
 export class CssInjector {
-  css: string
-  styleId: string
-  previousCssRulesLength: number
-  ignoreStyleSheetIds: string[]
-  styleSheetsLength: number
+  private styleSheetsLength: number
+  private cssRulesStack: {styleId: string, rulesLength: number}[]
+  private ignoreStyleSheetIds: string[]
+  rulesPrefix: string
 
-  constructor(css?: string, ignoreStyleSheetIds?: string[]) {
-    this.css = css ?? ''
-    this.styleId = 'hoge'
-    this.previousCssRulesLength = 0 // 配列の方がいいかも
-    this.ignoreStyleSheetIds = ignoreStyleSheetIds || []
+  constructor(data?: {ignoreStyleSheetIds?: string[], rulesPrefix?: string}) {
+    this.ignoreStyleSheetIds = data?.ignoreStyleSheetIds || []
+    this.cssRulesStack = []
     this.styleSheetsLength = document.styleSheets.length
+    this.rulesPrefix = data?.rulesPrefix ?? ''
   }
 
-  parse(css = '', rulesPrefix = ''): string[] {
-    if (css) {
-      this.css = css
+  parse(css: string): string[] {
+    if (!css || typeof css !== 'string') {
+      throw new Error('Invalid Type Error')
     }
 
     const cssArray = css.match(/^[^@\s].*{([^}]+)}/gm) ?? []
@@ -62,32 +60,42 @@ export class CssInjector {
     // 配列末尾の空文字を削除
     atRuleArray.pop()
 
-    return cssArray.map((rule) => `${rulesPrefix} ${rule}`).concat(atRuleArray)
+    return cssArray.map((rule) => `${this.rulesPrefix} ${rule}`).concat(atRuleArray)
   }
 
-  attachCSS(data: string[]) {
+  private createRandomString() {
+    return Math.random().toString(32).substring(8)
+  }
+
+  attachCssRules(data: string[]) {
+    const styleId = this.createRandomString()
+    // 削除時のためにattach情報の保持
+    this.cssRulesStack.push({styleId, rulesLength: data.length})
+
     // scriptタグとstyleタグの作成
     // 毎回新しく要素を作成しないと、2回目以降に反応してくれなくなる
     const style = document.createElement('style')
 
     // CSS styleの適用
-    style.id = this.styleId
+    style.id = styleId
+
     document.head.appendChild(style)
     for (const rule of data) {
       style.sheet?.insertRule(rule)
     }
-    // 次回プレビュー時に削除のため保持しておく
-    this.previousCssRulesLength = data.length
   }
 
-  detachCSS() {
-    // const previousCssRulesLength = this.previousCssRulesLengthArray.at(-1)
-    // if(!previousCssRulesLength || previousCssRulesLength < 1) {
-    //   throw new Error('not exists attached css rules')
-    // }
-    /**
-     * 前回attachの情報の削除
-     */
+  /**
+   * 前回attachの情報の削除
+   */
+  detachPreviousRules() {
+    const currentInfo = this.cssRulesStack.pop()
+
+    if (!currentInfo) {
+      console.error('stack empty')
+      return
+    }
+
     let dividedNumCustomRules = 0
 
     // 適用されているStyleSheetを全探査
@@ -102,7 +110,7 @@ export class CssInjector {
       // @ts-ignore
       if (this.ignoreStyleSheetIds.includes(item?.ownerNode?.id)) continue
 
-      for (let j = 0; j < this.previousCssRulesLength - 1; j++) {
+      for (let j = 0; j < currentInfo.rulesLength - 1; j++) {
         try {
           item?.deleteRule(j)
         } catch (e) {
@@ -114,6 +122,6 @@ export class CssInjector {
     }
 
     // CSSを適用させていた要素の削除
-    document.getElementById(this.styleId)?.remove()
+    document.getElementById(currentInfo.styleId)?.remove()
   }
 }
