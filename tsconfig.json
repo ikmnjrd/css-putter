@@ -5,14 +5,12 @@
       "ESNext",
       "DOM"
     ],
-    "module": "ESNext" /* Specify what module code is generated. */,
-    // "rootDir": "./" /* Specify the root folder within your source files. */,
-    // "baseUrl": "./",
+    "module": "ESNext",
     "declaration": true ,
     "sourceMap": true,
     "outDir": "./dist",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
 
     "skipLibCheck": true

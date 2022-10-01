@@ -17,7 +17,7 @@ export class CssInjector {
     }
 
     const cssArray = css.match(/^[^@\s].*{([^}]+)}/gm) ?? []
-    const cssAtRuleString = css.replace(/^[^@\s].*{([^}]+)}/gm, '') as string
+    const cssAtRuleString = css.replace(/^[^@\s].*{([^}]+)}/gm, '')
 
     const atRuleArray = ['']
     let atmarkflag = false
