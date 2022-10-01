@@ -1,4 +1,4 @@
-export class CssInjector {
+export class CssPutter {
   private styleSheetsLength: number
   private cssRulesStack: { styleId: string; rulesLength: number }[]
   private ignoreStyleSheetIds: string[]

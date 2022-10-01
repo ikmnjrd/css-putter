@@ -1,6 +1,6 @@
 {
-  "name": "css-insert",
-  "version": "1.0.0",
+  "name": "css-putter",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,9 +11,13 @@
     "build": "tsc",
     "format": "prettier --write ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "css",
+    "inject css",
+    "insert css"
+  ],
+  "author": "ikmnjrd",
+  "license": "MIT",
   "devDependencies": {
     "prettier": "^2.7.1",
     "typescript": "^4.8.3"
