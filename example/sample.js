@@ -1,4 +1,4 @@
-import { CssInjector } from '../dist/lib/main.js'
+import { CssInjector } from '../dist/index.js'
 
 const res = await fetch('http://127.0.0.1:8080/example/sample.css')
 const blob = await res.blob()
