@@ -1,10 +1,10 @@
 export class CssInjector {
   private styleSheetsLength: number
-  private cssRulesStack: {styleId: string, rulesLength: number}[]
+  private cssRulesStack: { styleId: string; rulesLength: number }[]
   private ignoreStyleSheetIds: string[]
   rulesPrefix: string
 
-  constructor(data?: {ignoreStyleSheetIds?: string[], rulesPrefix?: string}) {
+  constructor(data?: { ignoreStyleSheetIds?: string[]; rulesPrefix?: string }) {
     this.ignoreStyleSheetIds = data?.ignoreStyleSheetIds || []
     this.cssRulesStack = []
     this.styleSheetsLength = document.styleSheets.length
@@ -60,7 +60,9 @@ export class CssInjector {
     // 配列末尾の空文字を削除
     atRuleArray.pop()
 
-    return cssArray.map((rule) => `${this.rulesPrefix} ${rule}`).concat(atRuleArray)
+    return cssArray
+      .map((rule) => `${this.rulesPrefix} ${rule}`)
+      .concat(atRuleArray)
   }
 
   private createRandomString() {
@@ -70,7 +72,7 @@ export class CssInjector {
   attachCssRules(data: string[]) {
     const styleId = this.createRandomString()
     // 削除時のためにattach情報の保持
-    this.cssRulesStack.push({styleId, rulesLength: data.length})
+    this.cssRulesStack.push({ styleId, rulesLength: data.length })
 
     // scriptタグとstyleタグの作成
     // 毎回新しく要素を作成しないと、2回目以降に反応してくれなくなる
