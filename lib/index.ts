@@ -12,10 +12,6 @@ export class CssPutter {
   }
 
   parse(css: string): string[] {
-    if (!css || typeof css !== 'string') {
-      throw new Error('Invalid Type Error')
-    }
-
     const cssArray = css.match(/^[^@\s].*{([^}]+)}/gm) ?? []
     const cssAtRuleString = css.replace(/^[^@\s].*{([^}]+)}/gm, '')
 
