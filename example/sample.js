@@ -11,7 +11,7 @@ const css2 = await blob2.text()
 const cssPutter = new CssPutter()
 
 const cssParsed = cssPutter.parse(css)
-cssInjector.attachCssRules(cssParsed)
+cssPutter.attachCssRules(cssParsed)
 
 const cssParsed2 = cssPutter.parse(css2)
 cssPutter.attachCssRules(cssParsed2)
