@@ -4,19 +4,17 @@ describe("CssPutter", () => {
   it('Rule have white spaces in head', () => {
     const cssPutter = new CssPutter()
     const css = `
-    test_id {
-      color: blue;
-    }
-    .test_class {
-      color: red;
-    }`
+  test_id {
+    color: blue;
+  }`
     const rules = cssPutter.parse(css)
-    expect(rules).toHaveLength(2)
+    expect(rules).toHaveLength(0)
   })
 
   it('Two rules', () => {
     const cssPutter = new CssPutter()
-    const css = `test_id {
+    const css = `
+test_id {
   color: blue;
 }
 .test_class {

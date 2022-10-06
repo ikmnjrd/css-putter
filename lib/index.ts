@@ -12,8 +12,10 @@ export class CssPutter {
   }
 
   parse(css: string): string[] {
-    const cssArray = css.match(/(.*,\n)*.*{([^}]+)}/gm) ?? []
-    const cssAtRuleString = css.replace(/^[^@\s].*{([^}]+)}/gm, '')
+    const cssArray = css.match(/^[^@\s](.*,\n)*.*{([^}]+)}/gm) ?? []
+    const cssAtRuleString = css.replace(/^[^@\s](.*,\n)*.*{([^}]+)}/gm, '')
+
+    console.log(cssAtRuleString)
 
     const atRuleArray = ['']
     let atmarkflag = false
@@ -53,11 +55,13 @@ export class CssPutter {
         }
       }
 
-    // 配列末尾の空文字を削除
-    atRuleArray.pop()
+    // 配列末尾の空文字(『}』の後に改行があれば空文字が入る)を削除
+    if (!atRuleArray.at(-1)) {
+      atRuleArray.pop()
+    }
 
     return cssArray
-      .map((rule) => `${this.rulesPrefix} ${rule}`)
+      .map((rule) => (this.rulesPrefix ? `${this.rulesPrefix} ${rule}` : rule))
       .concat(atRuleArray)
   }
 
