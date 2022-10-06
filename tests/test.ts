@@ -45,7 +45,6 @@ describe("CssPutter", () => {
     background-color: transparent;
   }
 }`
-    console.log({css})
     const rules = cssPutter.parse(css)
     expect(rules).toHaveLength(1)
   })
