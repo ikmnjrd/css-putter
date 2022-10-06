@@ -12,7 +12,7 @@ export class CssPutter {
   }
 
   parse(css: string): string[] {
-    const cssArray = css.match(/^[^@\s].*{([^}]+)}/gm) ?? []
+    const cssArray = css.match(/(.*,\n)*.*{([^}]+)}/gm) ?? []
     const cssAtRuleString = css.replace(/^[^@\s].*{([^}]+)}/gm, '')
 
     const atRuleArray = ['']

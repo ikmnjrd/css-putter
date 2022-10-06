@@ -1,7 +1,7 @@
 import { CssPutter } from "../lib/index";
 
 describe("CssPutter", () => {
-  it('Rules head have white spaces ignored', () => {
+  it('Rule have white spaces in head', () => {
     const cssPutter = new CssPutter()
     const css = `
     test_id {
@@ -11,10 +11,10 @@ describe("CssPutter", () => {
       color: red;
     }`
     const rules = cssPutter.parse(css)
-    expect(rules).toHaveLength(0)
+    expect(rules).toHaveLength(2)
   })
 
-  it('Expect Rules', () => {
+  it('Two rules', () => {
     const cssPutter = new CssPutter()
     const css = `test_id {
   color: blue;
@@ -24,5 +24,29 @@ describe("CssPutter", () => {
 }`
     const rules = cssPutter.parse(css)
     expect(rules).toHaveLength(2)
+  })
+
+  it('Some selectors rule', () => {
+    const cssPutter = new CssPutter()
+    const css = `
+.class-a,
+.class-b {
+  font-size: 16px;
+}`
+    const rules = cssPutter.parse(css)
+    expect(rules).toHaveLength(1)
+  })
+
+  it('Atmark rule', () => {
+    const cssPutter = new CssPutter()
+    const css = `
+@media screen and (min-width: 769px) {
+  .main .container {
+    background-color: transparent;
+  }
+}`
+    console.log({css})
+    const rules = cssPutter.parse(css)
+    expect(rules).toHaveLength(1)
   })
 });
