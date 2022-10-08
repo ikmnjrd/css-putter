@@ -15,8 +15,6 @@ export class CssPutter {
     const cssArray = css.match(/^[^@\s](.*,\n)*.*{([^}]+)}/gm) ?? []
     const cssAtRuleString = css.replace(/^[^@\s](.*,\n)*.*{([^}]+)}/gm, '')
 
-    console.log(cssAtRuleString)
-
     const atRuleArray = ['']
     let atmarkflag = false
     let mustacheOpenCount = 0
