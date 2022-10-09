@@ -1,5 +1,5 @@
 # css-putter
-css-putter apply css file on web page at a time, whenever you hope yourself timing.
+css-putter apply CSS file on a web page at a time, whenever you hope yourself timing.
 
 ## Install
 
