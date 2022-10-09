@@ -11,9 +11,17 @@ export class CssPutter {
     this.rulesPrefix = data?.rulesPrefix ?? ''
   }
 
+  private addSelectorsPrefix() {
+  }
+  private insertRulesPrefixToRule(rule: string) {
+    const regexp = /[^\s]+\s*(?={)|[^\s]+,/gm
+    return rule.replace(regexp, `${this.rulesPrefix} $&`)
+  }
+
   parse(css: string): string[] {
-    const cssArray = css.match(/^[^@\s](.*,\n)*.*{([^}]+)}/gm) ?? []
-    const cssAtRuleString = css.replace(/^[^@\s](.*,\n)*.*{([^}]+)}/gm, '')
+    const regexp = /^[^@\s](.*,\n)*.*{([^}]+)}/gm
+    const cssArray = css.match(regexp) ?? []
+    const cssAtRuleString = css.replace(regexp, '')
 
     const atRuleArray = ['']
     let atmarkflag = false
@@ -58,9 +66,12 @@ export class CssPutter {
       atRuleArray.pop()
     }
 
-    return cssArray
-      .map((rule) => (this.rulesPrefix ? `${this.rulesPrefix} ${rule}` : rule))
+    if (this.rulesPrefix) {
+      return cssArray.map((rule) => this.insertRulesPrefixToRule(rule))
       .concat(atRuleArray)
+    }
+
+    return cssArray.concat(atRuleArray)
   }
 
   private createRandomString() {
