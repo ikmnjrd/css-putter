@@ -1,7 +1,7 @@
 {
   "name": "css-putter",
   "version": "0.0.1",
-  "description": "",
+  "description": "css-putter apply CSS file on a web page at a time, whenever you hope yourself timing.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc",
     "format": "prettier --write .",
-    "test": "jest --silent"
+    "test": "jest --silent",
+    "prepublish": "tsc"
   },
   "keywords": [
     "css",
